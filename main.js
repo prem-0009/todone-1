@@ -8,62 +8,83 @@
 
 // And now: code away.
 
-
+// console.log(todos)
 
 // Given a todo object, adds an item to our todo list.
+const addTodo = function(todo){
+  todos.push(todo)
+};
 
+// console.log(addTodo(todos))
 
 // Given a todo object, put it on the DOM. This is a pretty big function!
 const printTodo = function(todo) {
   // Use `document.createElement` to make an <li>, and set its text (preferably using `.innerText`) to be our given object's text field.
-
-
+  const list = document.createElement('li');
+  list.innerText = todo.text;
+  // console.log('hi',list.innerText)
 
   // Query the ol and put it in a variable.
+  const queryList = document.querySelector('.todo-list');
+  // console.log('query',queryList)
 
 
-
-  // Append the li we made to the ul as the last child using `.appendChild`. If this isn't working for you, check what is being appended to what!
-
-
+  // Append the li we made to the 0l as the last child using `.appendChild`. If this isn't working for you, check what is being appended to what!
+  queryList.appendChild(list)
+  
 
   // Give our new li a `todo-item` class using `classList`.
-
+  list.classList.add('todo-item')
 
 
   // Give our new li an id that is the object's id. This is so that we have a matching relationship between todo node elements and their corresponding objects.
-
-
+  list.id = todo.id;
 
   // Give the li a `complete` class if the todo object indicates it was complete already.
+ if (todo.complete){
+   list.classList.add('complete')
+ }
+// list.innerText.addEventL?istener()
 
-
-
-  // Give the <p> with the todo's text in it an event listener
+  // Give the <li> with the todo's text in it an event listener
   // to toggle that todo's completeness.
   // This is quite a challenge, so feel free to come back to this one at the end!
   // You'll want to add an event listener to the `li` you just made, and in that event listener function, toggle its completeness on both the DOM (using `classList.toggle`) and in our global array (toggling its completeness property).
   // The hard part will be finding it on the DOM and finding it in our array. We can tell what `li` was clicked using the `event` property passed in, and we can tell what object it goes to using the node element's id that we added above.
+ list.addEventListener('click', function(){
+   list.classList.toggle('complete')
+ })
 
+//  list.addEventListener('dblclick' function(){
+//    list.classList.remove('complete')
+//  })
 
 }
 
 
 // Print all todos. Loop through our todos array and call the above function on each one.
-
-
+const printTodosList = function(){
+   for ( const list of todos){
+    printTodo(list)
+  }
+}
 
 // Call the above function immediately after you define it, so our todos array gets printed out on page load. This is the only time we're calling a function, the rest is event listeners and helper functions that run when the user interacts with the DOM!
-
+printTodosList();
 
 
 
 // Clear all todos from the DOM. This is a great helper function for refreshing our todos.
 // Test it in the console and see if your lis disappear!
+const clearFromDom = function(){
+  const list = document.querySelector('.todo-list');
+  list.innerHTML = ''
+}
 
 
 
 // Refresh our page by calling each of the two above functions. Since printing all todos checks our todos array, if we make a change to our todos array, we can make our DOM match by simply clearing it and repopulating it according to our todos' new state.
+
 
 
 
@@ -78,6 +99,25 @@ Let's wire it all together. Add an event listener for the add todo button that w
 5. Stretch goal: remove all text from the input box. Try it without this first, you'll see why we should do it!
 
 */
+//1
+const btn = document.querySelector('.add-todo');
+
+btn.addEventListener('click', function(event){
+  // console.clear()
+  const todoObj = {
+    text: document.querySelector('.todo-input').value,
+    priority : 2,
+    completeness : false,
+    id: todos.length,
+  
+  }
+todos.push(todoObj);
+clearFromDom();
+
+printTodosList()  
+document.querySelector('.todo-input').value = ''
+
+})
 
 
 
@@ -90,3 +130,4 @@ Wire up your clear todos button. Give it an event listener that clears all todos
 
 
 // And you're DONE with a basic todo app! Next we'll make it very, very powerful.
+
